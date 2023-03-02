@@ -96,7 +96,7 @@ class MovieController extends Controller
 
         if ($movie->delete()) {
             return response()
-                    ->json(['data'=>'Article Deleted'], 202);
+                    ->json(['data'=>'Movie Deleted'], 200);
         }
 
         return response()
