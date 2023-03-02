@@ -74,10 +74,10 @@ class MovieController extends Controller
 
         $movie = Movie::findOrFail($id);
 
-        $movie->name = $request->input('name');
-        $movie->director = $request->input('director');
-        $movie->releaseDate = $request->input('releaseDate');
-        $movie->genre = $request->input('genre');
+        $movie->name = $request->name;
+        $movie->director = $request->director;
+        $movie->releaseDate = $request->releaseDate;
+        $movie->genre = $request->genre;
 
         $movie->save();
 
