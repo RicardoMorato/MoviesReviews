@@ -4,10 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    /**
+     * Login a user, creating a new access token
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login(Request $request) {
+        $validator = $this->validateLogin($request);
+
+        if ($validator->fails()) {
+            return response()
+                    ->json(['data'=>null, 'error'=>$validator->messages()], 400);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'error' => 'The provided credentials are incorrect.',
+                'data' => $user->password,
+            ]);
+        }
+
+        $token = $user->createToken($request->email)->plainTextToken;
+
+        return response()
+                ->json(['data' => $token], 200);
+    }
+
     /**
      * Display a listing of the resources
      * 
@@ -36,9 +67,13 @@ class UserController extends Controller
                     ->json(['data'=>null, 'error'=>$validator->messages()], 400);
         }
 
-        if (User::create($validator->validate())) {
+        $user = User::create($validator->validate());
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        if ($user) {
             return response()
-                    ->json(['data'=>$validator->validate()], 201);
+                    ->json(['data'=>$user], 201);
         }
 
         return response()
@@ -73,8 +108,8 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
+        $user->name = $request->name;
+        $user->email = $request->email;
 
         $user->save();
 
@@ -113,5 +148,12 @@ class UserController extends Controller
             'name' => 'required|string|min:3|max:255',
             'email' => 'required|email:rfc,dns',
         ]);  
+    }
+
+    public function validateLogin(Request $request) {
+        return Validator::make($request->all(), [
+            'email' => 'required|email:rfc,dns',
+            'password' => 'required|string|min:8|max:255',
+        ]);
     }
 }
