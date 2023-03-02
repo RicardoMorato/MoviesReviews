@@ -16,18 +16,18 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/test-login', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(UserController::class)->group(function () {
-    Route::get('/users', 'index');
-    Route::get('/users/{id}', 'show');
-    Route::post('/users', 'store');
-    Route::put('/users/{id}', 'update');
-    Route::delete('/users/{id}', 'destroy');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/{id}', [UserController::class, 'show']);
+    Route::post('/users', [UserController::class, 'store'])->withoutMiddleware('auth:sanctum');
+    Route::put('/users/{id}', [UserController::class, 'update']);
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-    Route::post('/users/login', 'login');
+    Route::post('/users/login', [UserController::class, 'login'])->withoutMiddleware('auth:sanctum');;
 });
 
 Route::controller(MovieController::class)->group(function () {
