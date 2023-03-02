@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -106,6 +107,11 @@ class UserController extends Controller
                     ->json(['data'=>null, 'error'=>$validator->messages()], 400);
         }
 
+        if (!Gate::allows('update-user', $id)) {
+            return response()
+                    ->json(['error' => 'Forbidden operation, you cannot update another user', 'data' => null], 403);
+        }
+
         $user = User::findOrFail($id);
 
         $user->name = $request->name;
@@ -124,6 +130,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(int $id) {
+        if (!Gate::allows('delete-user', $id)) {
+            return response()
+                    ->json(['error' => 'Forbidden operation, you cannot delete another user', 'data' => null], 403);
+        }
+
         $user = User::findOrFail($id);
 
         if ($user->delete()) {
