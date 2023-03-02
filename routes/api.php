@@ -26,6 +26,8 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/users', 'store');
     Route::put('/users/{id}', 'update');
     Route::delete('/users/{id}', 'destroy');
+
+    Route::post('/users/login', 'login');
 });
 
 Route::controller(MovieController::class)->group(function () {
