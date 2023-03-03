@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\HasMany;
 
 class Movie extends Model
 {
@@ -17,7 +16,7 @@ class Movie extends Model
         'director',
     ];
 
-    public function reviews(): HasMany {
+    public function reviews() {
         return $this->hasMany(Review::class);
     }
 }

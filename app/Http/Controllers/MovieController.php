@@ -53,8 +53,13 @@ class MovieController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(int $id) {
+        $movie = Movie::findOrFail($id);
+        $movie->reviews;
+
         return response()
-                ->json(['data'=> Movie::findOrFail($id)], 200);
+                ->json(['data'=> [
+                    'movie' => $movie,
+                ]], 200);
     }
 
     /**
