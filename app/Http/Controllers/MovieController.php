@@ -36,9 +36,11 @@ class MovieController extends Controller
                     ->json(['data'=>null, 'error'=>$validator->messages()], 400);
         }
 
-        if (Movie::create($validator->validate())) {
+        $movie = Movie::create($validator->validate());
+
+        if ($movie) {
             return response()
-                    ->json(['data'=>$validator->validate()], 201);
+                    ->json(['data'=> $movie], 201);
         }
 
         return response()
