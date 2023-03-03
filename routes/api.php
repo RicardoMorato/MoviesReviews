@@ -28,11 +28,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-    Route::get('/reviews', [ReviewController::class, 'index'])->withoutMiddleware('auth:sanctum');
-    Route::post('/reviews', [ReviewController::class, 'store']);
-
     Route::post('/users/login', [UserController::class, 'login'])->withoutMiddleware('auth:sanctum');
     
+    Route::get('/reviews', [ReviewController::class, 'index'])->withoutMiddleware('auth:sanctum');
+    Route::get('/reviews/{id}', [ReviewController::class, 'show'])->withoutMiddleware('auth:sanctum');
+    Route::post('/reviews', [ReviewController::class, 'store']);
+    Route::put('/reviews/{id}', [ReviewController::class, 'update']);
 });
 
 Route::controller(MovieController::class)->group(function () {

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Movie;
+use Illuminate\Support\Facades\Gate;
 
 class ReviewController extends Controller
 {
@@ -20,6 +21,17 @@ class ReviewController extends Controller
         return response()->json([
             'data'=>$reviews
         ], 200);
+    }
+
+    /**
+     * Display the specific resource
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(int $id) {
+        return response()
+                ->json(['data'=> Review::findOrFail($id)], 200);
     }
 
     /**
@@ -53,11 +65,49 @@ class ReviewController extends Controller
                 ->json(['data'=>null, 'error'=>'An odd error ocurred'], 500);
     }
 
+    /**
+     * Update the specific resource
+     * 
+     * @param int $id
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(int $id, Request $request) {
+        $validator = $this->validateReviewUpdate($request);
+
+        if ($validator->fails()) {
+            return response()
+                    ->json(['data'=>null, 'error'=>$validator->messages()], 400);
+        }
+
+        $review = Review::findOrFail($id);
+
+        if (!Gate::allows('update-review', $review)) {
+            return response()
+                    ->json(['error' => 'Forbidden operation, you cannot update a review from another user', 'data' => null], 403);
+        }
+
+        $review->title = $request->title;
+        $review->content = $request->content;
+
+        $review->save();
+
+        return response()
+                ->json(['data'=>$review], 200); 
+    }
+
     public function validateReviewCreation(Request $request) {
         return Validator::make($request->all(), [
-            'title' => 'required|string|min:3|max:25',
+            'title' => 'required|string|min:3|max:50',
             'content' => 'required|string|min:3|max:255',
             'movie_id' => 'required|integer|numeric',
+        ]);
+    }
+
+    public function validateReviewUpdate(Request $request) {
+        return Validator::make($request->all(), [
+            'title' => 'required|string|min:3|max:50',
+            'content' => 'required|string|min:3|max:255',
         ]);
     }
 }
