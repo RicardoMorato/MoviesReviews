@@ -32,9 +32,9 @@ Toda a API foi criada utilizando o [Laravel 10](https://laravel.com/docs) (vers�
 
 ## Como rodar o projeto 🚀
 
-Após clonar o projeto, entre na pasta ´MoviesReviews´ e rode o comando ´composer install´. Isso irá instalar as dependências da aplicação.
+Após clonar o projeto, entre na pasta `MoviesReviews` e rode o comando `composer install`. Isso irá instalar as dependências da aplicação.
 
-Uma vez que as dependências forem instaladas, você poderá rodar o comando ´./vendor/bin/sail up´ para que o docker-composer em que essa aplicação está baseada comece a rodar.
+Uma vez que as dependências forem instaladas, você poderá rodar o comando `./vendor/bin/sail up` para que o docker-composer em que essa aplicação está baseada comece a rodar.
 
 Espere até que todos os contêineres estejam rodando para que comece a testar livremente.
 
@@ -46,7 +46,9 @@ Uma collection do Postman pode ser encontrada neste link:
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/20223915-efb687f4-754f-4572-b6ba-528fedd9156e?action=collection%2Ffork&collection-url=entityId%3D20223915-efb687f4-754f-4572-b6ba-528fedd9156e%26entityType%3Dcollection%26workspaceId%3D9252cb61-8d29-4c37-b780-b927e1e7a264#?env%5BMovies%20reviews%20(Teste%20-%20Pontue)%5D=W3sia2V5IjoiYXBwX3VybCIsInZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDo4MCIsImVuYWJsZWQiOnRydWUsInR5cGUiOiJkZWZhdWx0Iiwic2Vzc2lvblZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDo4MCIsInNlc3Npb25JbmRleCI6MH0seyJrZXkiOiJiZWFyZXJfdG9rZW4iLCJ2YWx1ZSI6IiIsImVuYWJsZWQiOnRydWUsInR5cGUiOiJkZWZhdWx0Iiwic2Vzc2lvblZhbHVlIjoiIiwic2Vzc2lvbkluZGV4IjoxfV0=)
 
-Além disso, o arquivo ´.env´ necessário para rodar o projeto foi enviado para o e-mail, junto com esse teste.
+Além disso, o arquivo `.env` necessário para rodar o projeto foi enviado para o e-mail, junto com esse teste.
+
+Para rodar os testes da aplicação (escritos com PHPUnit), basta rodar o comando `php artisan test`.
 
 <br>
 
