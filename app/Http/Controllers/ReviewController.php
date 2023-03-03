@@ -41,7 +41,6 @@ class ReviewController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        // TO-DO: CREATE UNIT TEST FOR REVIEW VALIDATOR
         $validator = $this->validateReviewCreation($request);
 
         if ($validator->fails()) {

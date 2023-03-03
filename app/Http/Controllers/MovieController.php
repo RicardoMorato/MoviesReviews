@@ -29,7 +29,6 @@ class MovieController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        // TO-DO: CREATE UNIT TEST FOR MOVIE VALIDATOR
         $validator = $this->validateMovie($request);
 
         if ($validator->fails()) {

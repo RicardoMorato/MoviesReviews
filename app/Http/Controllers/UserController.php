@@ -60,7 +60,6 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        // TO-DO: CREATE UNIT TEST FOR USER VALIDATOR
         $validator = $this->validateUserCreation($request);
 
         if ($validator->fails()) {
