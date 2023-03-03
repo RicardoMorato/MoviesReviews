@@ -13,6 +13,8 @@ class Review extends Model
     protected $fillable = [
         'title',
         'content',
+        'movie_id',
+        'user_id',
     ];
 
     public function movie(): BelongsTo {

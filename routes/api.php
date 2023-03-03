@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-    Route::post('/users/login', [UserController::class, 'login'])->withoutMiddleware('auth:sanctum');;
+    Route::get('/reviews', [ReviewController::class, 'index'])->withoutMiddleware('auth:sanctum');
+    Route::post('/reviews', [ReviewController::class, 'store']);
+
+    Route::post('/users/login', [UserController::class, 'login'])->withoutMiddleware('auth:sanctum');
+    
 });
 
 Route::controller(MovieController::class)->group(function () {
@@ -37,4 +42,3 @@ Route::controller(MovieController::class)->group(function () {
     Route::put('/movies/{id}', 'update');
     Route::delete('/movies/{id}', 'destroy');
 });
-
