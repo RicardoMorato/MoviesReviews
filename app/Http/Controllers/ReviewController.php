@@ -96,6 +96,29 @@ class ReviewController extends Controller
                 ->json(['data'=>$review], 200); 
     }
 
+    /**
+     * Remove the specified resource from storage
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(int $id) {
+        $review = Review::findOrFail($id);
+
+        if (!Gate::allows('delete-review', $review)) {
+            return response()
+                    ->json(['error' => 'Forbidden operation, you cannot delete a review from another user', 'data' => null], 403);
+        }
+
+        if ($review->delete()) {
+            return response()
+                    ->json(['data'=>'Review Deleted'], 200);
+        }
+
+        return response()
+                ->json(['data'=>null, 'error'=>'An odd error ocurred'], 500);
+    }
+
     public function validateReviewCreation(Request $request) {
         return Validator::make($request->all(), [
             'title' => 'required|string|min:3|max:50',

@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reviews/{id}', [ReviewController::class, 'show'])->withoutMiddleware('auth:sanctum');
     Route::post('/reviews', [ReviewController::class, 'store']);
     Route::put('/reviews/{id}', [ReviewController::class, 'update']);
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
 });
 
 Route::controller(MovieController::class)->group(function () {
